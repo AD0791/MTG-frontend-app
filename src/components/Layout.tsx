@@ -1,4 +1,5 @@
 import { Link, NavLink, Outlet } from "react-router";
+import ColorModeToggle from "./ColorModeToggle";
 
 export default function Layout() {
     return (
@@ -22,6 +23,7 @@ export default function Layout() {
                         <NavLink to="/history">History</NavLink>
                     </li>
                 </ul>
+                <ColorModeToggle/>
             </nav>
 
             <main id="main" tabIndex={-1}>

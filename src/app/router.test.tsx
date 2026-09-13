@@ -1,11 +1,20 @@
 import { render, screen } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { expect, test } from "vitest";
-import {routes} from "./router";
+import Providers from "./providers";
+import { routes } from "./router";
+
+function renderAt(path: string) {
+    const router = createMemoryRouter(routes, { initialEntries: [path] });
+    render(
+        <Providers>
+            <RouterProvider router={router} />
+        </Providers>,
+    );
+}
 
 test("/history renders the history page and marks only its nav link current", async () => {
-    const router = createMemoryRouter(routes, { initialEntries: ["/history"] });
-    render(<RouterProvider router={router} />);
+    renderAt("/history");
 
     expect(await screen.findByRole("heading", { level: 1, name: /past runs/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "History" })).toHaveAttribute("aria-current", "page");
@@ -13,8 +22,7 @@ test("/history renders the history page and marks only its nav link current", as
 });
 
 test("an unknown URL renders the not found page", async () => {
-    const router = createMemoryRouter(routes, { initialEntries: ["/no-such-page"] });
-    render(<RouterProvider router={router} />);
+    renderAt("/no-such-page");
 
     expect(await screen.findByRole("heading", { level: 1, name: /not found/i })).toBeInTheDocument();
 });

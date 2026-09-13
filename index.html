@@ -4,7 +4,24 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mtg-frontend-app</title>
+    <title>Martingale Wall Simulator</title>
+    <script>
+      // Runs before any CSS or React: put the saved mode on <html> so the first paint is already right.
+      // "theme" is next-themes' storage key; it takes over once React mounts.
+      (function () {
+        var mode;
+        try {
+          mode = localStorage.getItem("theme");
+        } catch (e) {}
+        if (mode !== "light" && mode !== "dark") {
+          mode = matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        document.documentElement.classList.add(mode);
+        document.documentElement.style.colorScheme = mode;
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
